@@ -1,0 +1,20 @@
+server:
+  port: ":3001"
+  host: "0.0.0.0"
+
+database:
+  host: 127.0.0.1
+  port: 3306
+  user: "root"
+  password: "root"
+  db_name: "companies_db"
+  ssl_mode: "disable"
+
+kafka:
+  brokers: ["localhost:9092"]
+  topic: "company-events"
+  group_id: "company-service"
+
+jwt:
+  secret: "your-secret-key"
+  expiration: 24h
