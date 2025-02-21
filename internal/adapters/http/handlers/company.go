@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares/auth"
 	"github.com/rhuandantas/xm-challenge/internal/core/domain"
 	"github.com/rhuandantas/xm-challenge/internal/core/usecases"
 	"github.com/rhuandantas/xm-challenge/internal/errors"
@@ -15,23 +16,26 @@ type Company struct {
 	deleteCompanyUseCase usecases.DeleteCompany
 	updateCompanyUseCase usecases.UpdateCompany
 	validator            middlewares.Validator
+	jwtMiddleware        auth.Token
 }
 
-func NewCompanyHandler(getCompanyUseCase usecases.GetCompany, createCompanyUseCase usecases.CreateCompany, deleteCompanyUseCase usecases.DeleteCompany, updateCompany usecases.UpdateCompany, validator middlewares.Validator) *Company {
+func NewCompanyHandler(getCompanyUseCase usecases.GetCompany, createCompanyUseCase usecases.CreateCompany, deleteCompanyUseCase usecases.DeleteCompany, updateCompany usecases.UpdateCompany,
+	validator middlewares.Validator, jwtMiddleware auth.Token) *Company {
 	return &Company{
 		getCompanyUseCase:    getCompanyUseCase,
 		createCompanyUseCase: createCompanyUseCase,
 		deleteCompanyUseCase: deleteCompanyUseCase,
 		updateCompanyUseCase: updateCompany,
 		validator:            validator,
+		jwtMiddleware:        jwtMiddleware,
 	}
 }
 
 func (p *Company) RegisterRoutes(server *echo.Echo) {
 	server.GET("/company/:name", p.getCompany)
-	server.POST("/company", p.storeCompany)
-	server.DELETE("/company/:id", p.deleteCompany)
-	server.PATCH("/company/:id", p.updateCompany)
+	server.POST("/company", p.storeCompany, p.jwtMiddleware.VerifyToken)
+	server.DELETE("/company/:id", p.deleteCompany, p.jwtMiddleware.VerifyToken)
+	server.PATCH("/company/:id", p.updateCompany, p.jwtMiddleware.VerifyToken)
 }
 
 func (p *Company) getCompany(ctx echo.Context) error {

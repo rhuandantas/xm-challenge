@@ -17,4 +17,4 @@ kafka:
 
 jwt:
   secret: "your-secret-key"
-  expiration: 24h
+  expiration: 5m

@@ -10,6 +10,7 @@ import (
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/handlers"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares/auth"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository/mysql"
 	"github.com/rhuandantas/xm-challenge/internal/core/usecases"
@@ -17,6 +18,7 @@ import (
 
 func InitializeWebServer() (*http.Server, error) {
 	wire.Build(config.LoadConfig,
+		auth.NewJwtToken,
 		mysql.NewMySQLConnector,
 		kafka.NewProducer,
 		repository.NewCompanyRepo,
@@ -26,6 +28,7 @@ func InitializeWebServer() (*http.Server, error) {
 		usecases.NewUpdateCompany,
 		middlewares.NewCustomValidator,
 		handlers.NewCompanyHandler,
+		handlers.NewAuthorizationHandler,
 		http.NewAPIServer)
 	return &http.Server{}, nil
 }

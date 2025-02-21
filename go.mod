@@ -3,20 +3,20 @@ module github.com/rhuandantas/xm-challenge
 go 1.23
 
 require (
+	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/go-playground/validator/v10 v10.25.0
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.6.0
 	github.com/joomcode/errorx v1.2.0
 	github.com/json-iterator/go v1.1.12
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/labstack/gommon v0.4.2
-	github.com/lib/pq v1.10.9
 	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
 	github.com/rhuandantas/fiap-tech-challenge-commons v0.0.0-20240706191525-649710fb671b
 	github.com/rhuandantas/re-partners-home-test v0.0.0-20250212133046-3cf45324578d
-	github.com/segmentio/kafka-go v0.4.47
 	github.com/spf13/viper v1.19.0
 	go.uber.org/mock v0.5.0
 	xorm.io/xorm v1.3.9
@@ -24,7 +24,6 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/confluentinc/confluent-kafka-go v1.9.2 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
@@ -36,7 +35,6 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/pprof v0.0.0-20241210010833-40e02aabc2ad // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -45,7 +43,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
-	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect

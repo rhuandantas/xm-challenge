@@ -12,6 +12,7 @@ import (
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/handlers"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares/auth"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository/mysql"
 	"github.com/rhuandantas/xm-challenge/internal/core/usecases"
@@ -32,7 +33,9 @@ func InitializeWebServer() (*http.Server, error) {
 	deleteCompany := usecases.NewDeleteCompany(companyRepo, producer)
 	updateCompany := usecases.NewUpdateCompany(companyRepo, producer)
 	validator := middlewares.NewCustomValidator()
-	company := handlers.NewCompanyHandler(getCompany, createCompany, deleteCompany, updateCompany, validator)
-	server := http.NewAPIServer(company, configConfig)
+	token := auth.NewJwtToken(configConfig)
+	company := handlers.NewCompanyHandler(getCompany, createCompany, deleteCompany, updateCompany, validator, token)
+	authorization := handlers.NewAuthorizationHandler(token)
+	server := http.NewAPIServer(company, authorization, configConfig)
 	return server, nil
 }

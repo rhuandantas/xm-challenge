@@ -2,12 +2,14 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"time"
 )
 
 type Config struct {
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
 	Kafka    KafkaConfig    `mapstructure:"kafka"`
+	JWT      JWTConfig      `mapstructure:"jwt"`
 }
 
 type ServerConfig struct {
@@ -26,6 +28,11 @@ type KafkaConfig struct {
 	Brokers []string `mapstructure:"brokers"`
 	Topic   string   `mapstructure:"topic"`
 	GroupID string   `mapstructure:"group_id"`
+}
+
+type JWTConfig struct {
+	Secret     string        `mapstructure:"secret"`
+	Expiration time.Duration `mapstructure:"expiration"`
 }
 
 func LoadConfig() *Config {

@@ -15,11 +15,12 @@ type Server struct {
 	host           string
 	Server         *echo.Echo
 	companyHandler *handlers.Company
+	authHandler    *handlers.Authorization
 	configs        *config.Config
 }
 
 // NewAPIServer creates the main http with all configurations necessary
-func NewAPIServer(companyHandler *handlers.Company, configs *config.Config) *Server {
+func NewAPIServer(companyHandler *handlers.Company, authHandler *handlers.Authorization, configs *config.Config) *Server {
 	host := configs.Server.Port
 	app := echo.New()
 
@@ -42,11 +43,13 @@ func NewAPIServer(companyHandler *handlers.Company, configs *config.Config) *Ser
 		host:           host,
 		Server:         app,
 		companyHandler: companyHandler,
+		authHandler:    authHandler,
 	}
 }
 
 func (hs *Server) RegisterHandlers() {
 	hs.companyHandler.RegisterRoutes(hs.Server)
+	hs.authHandler.RegisterRoute(hs.Server)
 }
 
 // Start starts an application on specific port
