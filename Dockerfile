@@ -22,9 +22,6 @@ COPY . .
 
 # Build the application with ARM64 architecture
 RUN CGO_ENABLED=1 \
-    GOOS=linux \
-    GOARCH=arm64 \
-    PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig \
     go build -tags dynamic -ldflags="-w -s" -o main .
 
 # Final stage
