@@ -55,7 +55,7 @@ func (p *Company) getCompany(ctx echo.Context) error {
 func (p *Company) storeCompany(ctx echo.Context) error {
 	var company domain.Company
 	if err := ctx.Bind(&company); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company object"})
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 
 	if err := company.Validate(); err != nil {
