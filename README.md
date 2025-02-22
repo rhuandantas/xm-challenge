@@ -1,5 +1,21 @@
 # xm-home-test
 
+## Project structure
+``` sh
+    ├── config # config files
+    ├── internal
+    │   ├── adapters
+    │   │   ├── http # provides the REST API
+    │   │   ├── messaging # connection with Kafka
+    │   │   ├── repository # database connection and operations
+    │   └── core
+    │       ├── domain # models
+    │       └── usecases # business logic and unit tests
+    └── tests
+        ├── it # integration tests
+        └── mock # generated mocks
+```
+
 ## Instructions to run the container
 ### Make sure you have **make, docker and docker-compose** installed on your machine.
 
