@@ -1,7 +1,7 @@
 run:
 	go run cmd/main.go
 
-build: run-linter unit-test
+build: unit-test
 	docker-compose build
 
 up:

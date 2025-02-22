@@ -37,6 +37,6 @@ type Company struct {
 	Name              string      `json:"name" validate:"required"  xorm:"unique varchar(15) notnull"`
 	Description       *string     `json:"description,omitempty" xorm:"varchar(3000)"`
 	AmountOfEmployees int         `json:"amount_of_employees" validate:"required" xorm:"notnull"`
-	Registered        bool        `json:"registered" validate:"required" xorm:"notnull"`
+	Registered        bool        `json:"registered" xorm:"notnull"`
 	Type              CompanyType `json:"type" validate:"required" xorm:"notnull"`
 }
