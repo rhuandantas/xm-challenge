@@ -32,15 +32,14 @@ func NewCompanyHandler(getCompanyUseCase usecases.GetCompany, createCompanyUseCa
 }
 
 func (p *Company) RegisterRoutes(server *echo.Echo) {
-	server.GET("/company/:name", p.getCompany)
-	server.POST("/company", p.storeCompany, p.jwtMiddleware.VerifyToken)
-	server.DELETE("/company/:id", p.deleteCompany, p.jwtMiddleware.VerifyToken)
-	server.PATCH("/company/:id", p.updateCompany, p.jwtMiddleware.VerifyToken)
+	server.GET("/companies/:name", p.getCompany)
+	server.POST("/companies", p.storeCompany, p.jwtMiddleware.VerifyToken)
+	server.DELETE("/companies/:id", p.deleteCompany, p.jwtMiddleware.VerifyToken)
+	server.PATCH("/companies/:id", p.updateCompany, p.jwtMiddleware.VerifyToken)
 }
 
 func (p *Company) getCompany(ctx echo.Context) error {
-	var name string
-	name = ctx.Param("name")
+	name := ctx.Param("name")
 	if name == "" {
 		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company name"})
 	}
@@ -57,6 +56,10 @@ func (p *Company) storeCompany(ctx echo.Context) error {
 	var company domain.Company
 	if err := ctx.Bind(&company); err != nil {
 		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company object"})
+	}
+
+	if err := company.Validate(); err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 
 	if err := p.validateCompany(&company); err != nil {
@@ -80,8 +83,7 @@ func (p *Company) validateCompany(company *domain.Company) error {
 }
 
 func (p *Company) deleteCompany(c echo.Context) error {
-	var id string
-	id = c.Param("id")
+	id := c.Param("id")
 	if id == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company id"})
 	}
@@ -100,10 +102,13 @@ func (p *Company) updateCompany(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company object"})
 	}
 
-	var id string
-	id = c.Param("id")
+	id := c.Param("id")
 	if id == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "please send a company id"})
+	}
+
+	if err := company.Validate(); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
 
 	err := p.validateCompany(&company)

@@ -47,7 +47,7 @@ func HandleError(ctx echo.Context, err *errorx.Error) error {
 }
 
 func ResponseJson(ctx echo.Context, o interface{}) error {
-	ctx.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
+	ctx.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	ctx.Response().WriteHeader(http.StatusOK)
 	return jsoniter.NewEncoder(ctx.Response()).Encode(o)
 }

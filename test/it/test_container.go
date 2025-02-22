@@ -70,12 +70,12 @@ func SetupKafkaContainer(ctx context.Context) (*TestContainer, error) {
 		kafka.WithClusterID("test-cluster"),
 	)
 	if err != nil {
-		fmt.Errorf("Failed to start Kafka container: %v", err)
+		_ = fmt.Errorf("Failed to start Kafka container: %v", err)
 	}
 	// Get the broker address
 	brokers, err := kafkaContainer.Brokers(ctx)
 	if err != nil {
-		fmt.Errorf("Failed to get Kafka broker address: %v", err)
+		_ = fmt.Errorf("Failed to get Kafka broker address: %v", err)
 	}
 	fmt.Println("Kafka Broker:", brokers)
 
@@ -85,47 +85,5 @@ func SetupKafkaContainer(ctx context.Context) (*TestContainer, error) {
 		Addresses: brokers,
 		Host:      "",
 		Port:      "",
-	}, nil
-}
-
-func setupZookeeper(ctx context.Context, networkName string) (*TestContainer, error) {
-	req := testcontainers.ContainerRequest{
-		Image:        "confluentinc/cp-zookeeper:latest",
-		ExposedPorts: []string{"2181/tcp"},
-		Networks:     []string{networkName},
-		Name:         "zookeeper",
-		Env: map[string]string{
-			"ZOOKEEPER_CLIENT_PORT": "2181",
-			"ZOOKEEPER_TICK_TIME":   "2000",
-		},
-		WaitingFor: wait.ForAll(
-			wait.ForLog("binding to port"),
-			wait.ForListeningPort("2181/tcp"),
-		),
-	}
-
-	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-		ContainerRequest: req,
-		Started:          true,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	host, err := container.Host(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	mappedPort, err := container.MappedPort(ctx, "2181")
-	if err != nil {
-		return nil, err
-	}
-
-	return &TestContainer{
-		Container: container,
-		URI:       fmt.Sprintf("%s:%s", host, mappedPort.Port()),
-		Host:      host,
-		Port:      mappedPort.Port(),
 	}, nil
 }

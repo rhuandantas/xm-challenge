@@ -14,16 +14,15 @@ type DBConnector interface {
 	SyncTables(beans ...interface{}) error
 }
 
-type MySQLConnector struct {
-	engine  *xorm.Engine
-	configs *config.Config
+type Connector struct {
+	engine *xorm.Engine
 }
 
-func (m *MySQLConnector) GetORM() *xorm.Engine {
+func (m *Connector) GetORM() *xorm.Engine {
 	return m.engine
 }
 
-func (m *MySQLConnector) Close() {
+func (m *Connector) Close() {
 	err := m.engine.Close()
 	if err != nil {
 		log.Fatal(err.Error())
@@ -49,11 +48,11 @@ func NewMySQLConnector(configs *config.Config) DBConnector {
 	//engine.Logger().SetLevel(log.DEBUG)
 	engine.SetMapper(names.SnakeMapper{})
 
-	return &MySQLConnector{
+	return &Connector{
 		engine: engine,
 	}
 }
 
-func (m *MySQLConnector) SyncTables(beans ...interface{}) error {
+func (m *Connector) SyncTables(beans ...interface{}) error {
 	return m.engine.Sync(beans...)
 }

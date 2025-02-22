@@ -15,7 +15,6 @@ type Producer interface {
 
 type producer struct {
 	producer *kafka.Producer
-	config   *config.Config
 }
 
 func NewProducer(config *config.Config) (Producer, error) {

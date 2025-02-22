@@ -18,7 +18,6 @@ type Server struct {
 	Server         *echo.Echo
 	companyHandler *handlers.Company
 	authHandler    *handlers.Authorization
-	configs        *config.Config
 }
 
 // NewAPIServer creates the main http with all configurations necessary

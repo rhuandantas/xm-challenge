@@ -9,6 +9,22 @@ const (
 	SoleProprietorship CompanyType = "sole proprietorship"
 )
 
+func (ct CompanyType) IsValid() bool {
+	switch ct {
+	case Corporations, NonProfit, Cooperative, SoleProprietorship:
+		return true
+	default:
+		return false
+	}
+}
+
+func (c *Company) Validate() error {
+	if !c.Type.IsValid() {
+		return ErrInvalidCompanyType
+	}
+	return nil
+}
+
 type Company struct {
 	Id                string      `xorm:"pk uuid"`
 	Name              string      `json:"name" xorm:"unique varchar(15) notnull"`
