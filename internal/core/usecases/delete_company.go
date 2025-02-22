@@ -3,7 +3,7 @@ package usecases
 import (
 	"context"
 	"github.com/labstack/gommon/log"
-	"github.com/rhuandantas/xm-challenge/internal/adapters/async/kafka"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/messaging/kafka"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository"
 )
 

@@ -9,6 +9,8 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/rhuandantas/xm-challenge/config"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/handlers"
+	"github.com/rs/zerolog"
+	"os"
 )
 
 type Server struct {
@@ -23,7 +25,11 @@ type Server struct {
 func NewAPIServer(companyHandler *handlers.Company, authHandler *handlers.Authorization, configs *config.Config) *Server {
 	host := configs.Server.Port
 	app := echo.New()
-
+	// Setup zerolog
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	logger := zerolog.New(os.Stdout).With().Timestamp().Logger()
+	app.Logger = echo.New().Logger
+	app.Logger.SetOutput(logger)
 	app.HideBanner = true
 	app.HidePort = true
 
@@ -34,7 +40,10 @@ func NewAPIServer(companyHandler *handlers.Company, authHandler *handlers.Author
 		LogURI:    true,
 		LogStatus: true,
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
-			log.Info(fmt.Sprintf("URI: %s, status: %d", v.URI, v.Status))
+			logger.Info().
+				Str("uri", v.URI).
+				Int("status", v.Status).
+				Msg("request completed")
 			return nil
 		},
 	}))

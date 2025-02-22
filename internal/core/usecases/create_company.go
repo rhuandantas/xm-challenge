@@ -3,10 +3,10 @@ package usecases
 import (
 	"context"
 	"errors"
-	"github.com/labstack/gommon/log"
-	"github.com/rhuandantas/xm-challenge/internal/adapters/async/kafka"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/messaging/kafka"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository"
 	"github.com/rhuandantas/xm-challenge/internal/core/domain"
+	"github.com/rs/zerolog/log"
 )
 
 type CreateCompany interface {
@@ -34,17 +34,19 @@ func (p *createCompany) Execute(ctx context.Context, company *domain.Company) (*
 	}
 
 	if found != nil {
+		log.Error().Msg("company already exists")
 		return nil, errors.New("company already exists")
 	}
 
 	_, err = p.repo.Create(ctx, company)
 	if err != nil {
+		log.Error().Msg("error creating company")
 		return nil, errors.New("error creating company")
 	}
 
 	err = p.producer.Produce(ctx, "company-events", "message", map[string]interface{}{"action": "create", "payload": company})
 	if err != nil {
-		log.Warn("error producing message ", err.Error())
+		log.Error().Msgf("error producing message: %s", err.Error())
 	}
 
 	return nil, nil

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rhuandantas/xm-challenge/config"
+	"github.com/rs/zerolog/log"
 )
 
 type Producer interface {
@@ -34,6 +35,7 @@ func NewProducer(config *config.Config) (Producer, error) {
 }
 
 func (p *producer) Produce(ctx context.Context, topic string, key string, value interface{}) error {
+	log.Info().Msgf("publishing message to %s", topic)
 	jsonValue, err := json.Marshal(value)
 	if err != nil {
 		return err
