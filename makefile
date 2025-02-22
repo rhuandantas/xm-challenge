@@ -16,7 +16,7 @@ mock:
 	mockgen -source=internal/adapters/messaging/kafka/producer.go -package=mock_kafka -destination=test/mock/kafka/producer.go
 
 unit-test: install
-	go test -v ./...
+	go clean --testcache && go test ./...
 
 run-linter:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
