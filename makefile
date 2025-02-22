@@ -12,7 +12,8 @@ install:
 	go install github.com/onsi/ginkgo/v2/ginkgo
 
 mock:
-	mockgen -source=internal/adapters/repository/cache/memcache.go -package=mock_cache -destination=test/mock/repository/cache/memcache.go
+	mockgen -source=internal/adapters/repository/company.go -package=mock_mysql -destination=test/mock/repository/company.go
+	mockgen -source=internal/adapters/messaging/kafka/producer.go -package=mock_kafka -destination=test/mock/kafka/producer.go
 
 unit-test: install
 	go test -v ./...	

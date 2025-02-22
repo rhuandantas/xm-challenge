@@ -40,10 +40,7 @@ func NewAPIServer(companyHandler *handlers.Company, authHandler *handlers.Author
 		LogURI:    true,
 		LogStatus: true,
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
-			logger.Info().
-				Str("uri", v.URI).
-				Int("status", v.Status).
-				Msg("request completed")
+			log.Info(fmt.Sprintf("URI: %s, status: %d", v.URI, v.Status))
 			return nil
 		},
 	}))

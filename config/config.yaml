@@ -3,11 +3,11 @@ server:
   host: "0.0.0.0"
 
 database:
-  url: "root:root@tcp(localhost:3306)/companies_db?charset=utf8"
+  url: "root:root@tcp(mysql:3306)/companies_db?charset=utf8&parseTime=true"
   ssl_mode: "disable"
 
 kafka:
-  brokers: ["localhost:9092"]
+  brokers: ["kafka:9092"]
   topic: "company-events"
   group_id: "company-service"
 

@@ -21,7 +21,7 @@ type DatabaseConfig struct {
 }
 
 type KafkaConfig struct {
-	Brokers []string `mapstructure:"messaging"`
+	Brokers []string `mapstructure:"brokers"`
 	Topic   string   `mapstructure:"topic"`
 	GroupID string   `mapstructure:"group_id"`
 }

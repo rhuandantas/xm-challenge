@@ -59,11 +59,11 @@ func (jt *JwtToken) VerifyToken(next echo.HandlerFunc) echo.HandlerFunc {
 			return secret, nil
 		})
 		if err != nil {
-			return errors.Unauthorized.New(err.Error())
+			return errors.HandleError(c, errors.Unauthorized.New(err.Error()))
 		}
 
 		if !tkn.Valid {
-			return errors.Unauthorized.New("authentication is not valid")
+			return errors.HandleError(c, errors.Unauthorized.New("authentication is not valid"))
 		}
 
 		return next(c)
