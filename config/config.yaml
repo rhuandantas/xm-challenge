@@ -3,11 +3,7 @@ server:
   host: "0.0.0.0"
 
 database:
-  host: 127.0.0.1
-  port: 3306
-  user: "root"
-  password: "root"
-  db_name: "companies_db"
+  url: "root:root@tcp(localhost:3306)/companies_db?charset=utf8"
   ssl_mode: "disable"
 
 kafka:
@@ -17,4 +13,4 @@ kafka:
 
 jwt:
   secret: "your-secret-key"
-  expiration: 5m
+  expiration: 1h

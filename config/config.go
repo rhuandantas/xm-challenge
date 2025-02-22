@@ -17,15 +17,11 @@ type ServerConfig struct {
 }
 
 type DatabaseConfig struct {
-	Host     string `mapstructure:"host"`
-	Port     string `mapstructure:"port"`
-	User     string `mapstructure:"user"`
-	Password string `mapstructure:"password"`
-	DBName   string `mapstructure:"db_name"`
+	Url string `mapstructure:"url"`
 }
 
 type KafkaConfig struct {
-	Brokers []string `mapstructure:"brokers"`
+	Brokers []string `mapstructure:"messaging"`
 	Topic   string   `mapstructure:"topic"`
 	GroupID string   `mapstructure:"group_id"`
 }

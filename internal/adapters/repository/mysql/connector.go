@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/gommon/log"
 	"github.com/rhuandantas/xm-challenge/config"
@@ -37,16 +36,12 @@ func NewMySQLConnector(configs *config.Config) DBConnector {
 		err error
 	)
 
-	dbHost := configs.Database.Host
-	dbPassword := configs.Database.Password
-	dbName := configs.Database.DBName
-	dbUser := configs.Database.User
-	dbPort := configs.Database.Port
-	if dbHost == "" || dbPassword == "" || dbName == "" || dbUser == "" || dbPort == "" {
+	dbUrl := configs.Database.Url
+	if dbUrl == "" {
 		log.Fatal("make sure your db variable are configured properly")
 	}
 
-	engine, err := xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", dbUser, dbPassword, dbHost, dbPort, dbName))
+	engine, err := xorm.NewEngine("mysql", dbUrl)
 	if err != nil {
 		panic(err)
 	}
