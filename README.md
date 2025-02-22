@@ -1,9 +1,7 @@
 # xm-home-test
 
-- This is a simple API that calculates the minimum number of packs required to fulfill an order.
-
 ## Instructions to run the container
-### Make sure you have docker and docker-compose installed on your machine.
+### Make sure you have **make, docker and docker-compose** installed on your machine.
 
 ```sh
   make build
