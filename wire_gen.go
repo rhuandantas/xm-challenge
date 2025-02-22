@@ -8,11 +8,11 @@ package main
 
 import (
 	"github.com/rhuandantas/xm-challenge/config"
-	"github.com/rhuandantas/xm-challenge/internal/adapters/async/kafka"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/handlers"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/http/middlewares/auth"
+	"github.com/rhuandantas/xm-challenge/internal/adapters/messaging/kafka"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository"
 	"github.com/rhuandantas/xm-challenge/internal/adapters/repository/mysql"
 	"github.com/rhuandantas/xm-challenge/internal/core/usecases"
